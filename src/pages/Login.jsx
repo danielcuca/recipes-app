@@ -11,7 +11,6 @@ function Login() {
     const sizePassword = 6; // Inserido para evitar magic number
     const isValid = emailIsValid(emailValue) && passwordValue.length > sizePassword;
     setFormValid(isValid);
-    // console.log(isValid);
   };
 
   const handleEmailChange = (event) => {
