@@ -1,9 +1,10 @@
-import React, { useLocation } from 'react';
+import React, { useLocation, useHistory } from 'react';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
 function Header() {
   const { pathname } = useLocation();
+  const { history } = useHistory();
 
   let pageTitle = '';
 
@@ -36,12 +37,22 @@ function Header() {
   const isDone = pathname === '/done-recipes';
   const isFavorite = pathname === '/favorites';
 
+  const handleClickProfile = () => {
+    if (!isProfile) {
+      history.push('/profile');
+    }
+  };
+
   return (
     <header>
       <h1 data-testeid="page-title">{pageTitle}</h1>
 
       {(isMeals || isDrinks) && (
-        <button type="button" data-testid="profile-top-btn">
+        <button
+          type="button"
+          data-testid="profile-top-btn"
+          onClick={ handleClickProfile }
+        >
           <img src={ profileIcon } alt="profile-btn" />
         </button>
       )}
@@ -53,19 +64,31 @@ function Header() {
       )}
 
       {isProfile && (
-        <button type="button" data-testid="profile-top-btn">
+        <button
+          type="button"
+          data-testid="profile-top-btn"
+          onClick={ handleClickProfile }
+        >
           <img src={ profileIcon } alt="profile-btn" />
         </button>
       )}
 
       {isDone && (
-        <button type="button" data-testid="profile-top-btn">
+        <button
+          type="button"
+          data-testid="profile-top-btn"
+          onClick={ handleClickProfile }
+        >
           <img src={ profileIcon } alt="profile-btn" />
         </button>
       )}
 
       {isFavorite && (
-        <button type="button" data-testid="profile-top-btn">
+        <button
+          type="button"
+          data-testid="profile-top-btn"
+          onClick={ handleClickProfile }
+        >
           <img src={ profileIcon } alt="profile-btn" />
         </button>
       )}
