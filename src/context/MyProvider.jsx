@@ -5,16 +5,15 @@ import MyContext from './MyContext';
 function Provider({ children }) {
   const [isLoading, setLoading] = useState(true);
 
-  const value = useMemo(() => ({
-    isLoading,
-    setLoading,
-  }), []);
-
-  return (
-    <MyContext.Provider value={ value }>
-      {children}
-    </MyContext.Provider>
+  const value = useMemo(
+    () => ({
+      isLoading,
+      setLoading,
+    }),
+    [isLoading, setLoading],
   );
+
+  return <MyContext.Provider value={ value }>{children}</MyContext.Provider>;
 }
 
 Provider.propTypes = {
