@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
 function Header() {
   const { pathname } = useLocation();
-  const { history } = useHistory();
 
   const [searchBarVisible, setSearchBarVisible] = useState();
 
@@ -39,13 +39,7 @@ function Header() {
   const isDrinks = pathname === '/drinks';
   const isProfile = pathname === '/profile';
   const isDone = pathname === '/done-recipes';
-  const isFavorite = pathname === '/favorites';
-
-  const handleClickProfile = () => {
-    if (!isProfile) {
-      history.push('/profile');
-    }
-  };
+  const isFavorite = pathname === '/favorite-recipes';
 
   const handleClickSearch = () => {
     setSearchBarVisible(!searchBarVisible);
@@ -53,52 +47,28 @@ function Header() {
 
   return (
     <header>
-      <h1 data-testeid="page-title">{pageTitle}</h1>
+      <h1 data-testid="page-title">{pageTitle}</h1>
 
       {(isMeals || isDrinks) && (
-        <button
-          type="button"
-          data-testid="profile-top-btn"
-          onClick={ handleClickProfile }
+        <Link
+          to="/profile"
         >
-          <img src={ profileIcon } alt="profile-btn" />
-        </button>
+          <img data-testid="profile-top-btn" src={ profileIcon } alt="profile-btn" />
+        </Link>
       )}
 
       {(isMeals || isDrinks) && (
-        <button data-testid="search-top-btn" onClick={ handleClickSearch }>
-          <img src={ searchIcon } alt="search-btn" />
+        <button onClick={ handleClickSearch }>
+          <img data-testid="search-top-btn" src={ searchIcon } alt="search-btn" />
         </button>
       )}
 
-      {isProfile && (
-        <button
-          type="button"
-          data-testid="profile-top-btn"
-          onClick={ handleClickProfile }
+      {(isProfile || isDone || isFavorite) && (
+        <Link
+          to="/profile"
         >
-          <img src={ profileIcon } alt="profile-btn" />
-        </button>
-      )}
-
-      {isDone && (
-        <button
-          type="button"
-          data-testid="profile-top-btn"
-          onClick={ handleClickProfile }
-        >
-          <img src={ profileIcon } alt="profile-btn" />
-        </button>
-      )}
-
-      {isFavorite && (
-        <button
-          type="button"
-          data-testid="profile-top-btn"
-          onClick={ handleClickProfile }
-        >
-          <img src={ profileIcon } alt="profile-btn" />
-        </button>
+          <img data-testid="profile-top-btn" src={ profileIcon } alt="profile-btn" />
+        </Link>
       )}
       {
         searchBarVisible && <SearchBar />

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
+import MyContext from '../context/MyContext';
 
 // const URL_MEALS = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=';
 // const URL_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
@@ -10,6 +11,8 @@ function SearchBar() {
 
   const { pathname } = useLocation();
 
+  const { setDataDrinks, setDataMeals } = useContext(MyContext);
+
   const handleChangeInput = ({ target }) => {
     setTextInput(target.value);
   };
@@ -18,50 +21,13 @@ function SearchBar() {
     setRadioOption(target.value);
   };
 
-  // const verifyOptions = () => {
-  //   let url = '';
-  //   switch (radioOption) {
-  //   case 'ingredient':
-  //     url = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${textInput}`;
-  //     return url;
-
-  //   case 'name':
-  //     url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${textInput}`;
-  //     return url;
-
-  //   case 'letter': {
-  //     if (textInput.length > 1) {
-  //       global.alert('Your search must have only 1 (one) character');
-  //     }
-  //     url = `https://www.themealdb.com/api/json/v1/1/search.php?f=${textInput}`;
-  //     return url;
-  //   }
-
-  //   default:
-  //     break;
-  //   }
-  // };
-
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     let apiUrl = '';
-  //     try {
-  //       if (pathname === '/meal') {
-  //         apiUrl = verifyOptions();
-  //       } else if (pathname === '/drinks') {
-  //         apiUrl = verifyOptions();
-  //       }
-
-  //       const response = await fetch(apiUrl);
-
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         console.log('Data:', data);
-  //       }
-  //     } catch (error) {
-  // log
-  //     }
-  //   };
+  const updatedData = (data) => {
+    if (pathname === '/meals') {
+      setDataMeals(data.meals);
+    } else if (pathname === '/drinks') {
+      setDataDrinks(data.drinks);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,7 +66,7 @@ function SearchBar() {
       if (response.ok) {
         const data = await response.json();
         console.log('data:', data);
-
+        updatedData(data);
         setTextInput('');
         setRadioOption('');
       }
@@ -157,7 +123,7 @@ function SearchBar() {
       <button
         type="submit"
         data-testid="exec-search-btn"
-        onClick={ handleSubmit }
+        onClick={ (e) => handleSubmit(e) }
       >
         Search
 
