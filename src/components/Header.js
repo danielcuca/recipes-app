@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
+import './Header.css';
 
 function Header() {
   const { pathname } = useLocation();
@@ -46,7 +47,7 @@ function Header() {
   };
 
   return (
-    <header>
+    <header className="header_container">
       <h1 data-testid="page-title">{pageTitle}</h1>
 
       {(isMeals || isDrinks) && (
