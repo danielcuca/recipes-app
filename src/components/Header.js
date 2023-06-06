@@ -32,7 +32,6 @@ function Header() {
     pageTitle = 'Favorite Recipes';
     break;
   default:
-    pageTitle = 'App de receitas';
     break;
   }
 

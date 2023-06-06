@@ -1,15 +1,13 @@
 import React, { useState, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import MyContext from '../context/MyContext';
-
-// const URL_MEALS = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=';
-// const URL_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
 function SearchBar() {
   const [textInput, setTextInput] = useState('');
   const [radioOption, setRadioOption] = useState('');
 
   const { pathname } = useLocation();
+  const history = useHistory();
 
   const { setDataDrinks, setDataMeals } = useContext(MyContext);
 
@@ -22,10 +20,21 @@ function SearchBar() {
   };
 
   const updatedData = (data) => {
+    const max = 12;
     if (pathname === '/meals') {
-      setDataMeals(data.meals);
+      if (data.meals.length === 1) {
+        const url = `/meals/${data.meals[0].idMeal}`;
+        history.push(url);
+      }
+      const meals = data.meals.length < max ? data.meals : data.meals.slice(0, max);
+      setDataMeals(meals);
     } else if (pathname === '/drinks') {
-      setDataDrinks(data.drinks);
+      if (data.drinks.length === 1) {
+        const url = `/drinks/${data.drinks[0].idDrink}`;
+        history.push(url);
+      }
+      const drinks = data.drinks.length < max ? data.drinks : data.drinks.slice(0, max);
+      setDataDrinks(drinks);
     }
   };
 
@@ -71,7 +80,7 @@ function SearchBar() {
         setRadioOption('');
       }
     } catch (error) {
-      console.error(error.message);
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
   };
 
