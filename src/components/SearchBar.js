@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 // const URL_MEALS = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=';
 // const URL_DRINKS = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
@@ -8,7 +8,7 @@ function SearchBar() {
   const [textInput, setTextInput] = useState('');
   const [radioOption, setRadioOption] = useState('');
 
-  // const { pathname } = useLocation();
+  const { pathname } = useLocation();
 
   const handleChangeInput = ({ target }) => {
     setTextInput(target.value);
@@ -63,6 +63,52 @@ function SearchBar() {
   //     }
   //   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      let apiUrl = '';
+      switch (pathname) {
+      case '/meals':
+        if (radioOption === 'ingredient') {
+          apiUrl = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${textInput}`;
+        } else if (radioOption === 'name') {
+          apiUrl = `https://www.themealdb.com/api/json/v1/1/search.php?s=${textInput}`;
+        } else if (radioOption === 'letter' && textInput.length !== 1) {
+          global.alert('Your search must have only 1 (one) character');
+        } else if (radioOption === 'letter') {
+          apiUrl = `https://www.themealdb.com/api/json/v1/1/search.php?f=${textInput}`;
+        }
+        break;
+
+      case '/drinks':
+        if (radioOption === 'ingredient') {
+          apiUrl = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${textInput}`;
+        } else if (radioOption === 'name') {
+          apiUrl = `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${textInput}`;
+        } else if (radioOption === 'letter' && textInput.length !== 1) {
+          global.alert('Your search must have only 1 (one) character');
+        } else if (radioOption === 'letter') {
+          apiUrl = `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${textInput}`;
+        }
+        break;
+
+      default:
+        break;
+      }
+      const response = await fetch(apiUrl);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('data:', data);
+
+        setTextInput('');
+        setRadioOption('');
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   return (
     <form action="">
       <input
@@ -108,7 +154,14 @@ function SearchBar() {
           onChange={ handleChangeRadio }
         />
       </label>
-      <button data-testid="exec-search-btn">Search</button>
+      <button
+        type="submit"
+        data-testid="exec-search-btn"
+        onClick={ handleSubmit }
+      >
+        Search
+
+      </button>
     </form>
   );
 }
