@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Drinks from './pages/Drinks';
 import Meals from './pages/Meals';
 import Login from './pages/Login';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/meals" component={ Meals } />
         {/* <Route path="/meals/:id" component={ MealDetails } /> */}
       </Switch>
+      <Footer />
     </div>
   );
 }
