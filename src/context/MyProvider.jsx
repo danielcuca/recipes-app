@@ -30,7 +30,9 @@ function Provider({ children }) {
     fetchDrinks,
     fetchMeals,
     dataMeals,
-  });
+    setDataDrinks,
+    setDataMeals,
+  }));
   return (
     <MyContext.Provider value={ value }>
       {children}
