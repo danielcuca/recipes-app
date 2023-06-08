@@ -131,7 +131,7 @@ function RecipeDetails() {
   }, [id]);
 
   const handleStartRecipe = () => {
-    // a fazer
+
   };
 
   const {
