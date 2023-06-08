@@ -89,7 +89,7 @@ function RecipeDetails() {
   useEffect(() => {
     const fetchRecommendations = async () => {
       try {
-        const MAX_RECOMMENDATIONS = 6;
+        const max = 6;
 
         if (url.includes('/meals')) {
           const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
@@ -98,7 +98,7 @@ function RecipeDetails() {
           if (data.drinks) {
             setRecipeDetails((prevState) => ({
               ...prevState,
-              recommendations: data.drinks.slice(0, MAX_RECOMMENDATIONS),
+              recommendations: data.drinks.slice(0, max),
             }));
           }
         } else if (url.includes('/drinks')) {
@@ -108,7 +108,7 @@ function RecipeDetails() {
           if (data.meals) {
             setRecipeDetails((prevState) => ({
               ...prevState,
-              recommendations: data.meals.slice(0, MAX_RECOMMENDATIONS),
+              recommendations: data.meals.slice(0, max),
             }));
           }
         }
@@ -145,6 +145,7 @@ function RecipeDetails() {
     recommendations,
     recipeDone,
   } = recipeDetails;
+  const ytId = -11;
 
   return (
     <div className="container">
@@ -179,7 +180,7 @@ function RecipeDetails() {
           title="Recipe Video"
           width="560"
           height="315"
-          src={ `https://www.youtube.com/embed/${videoYT.slice(-11)}` }
+          src={ `https://www.youtube.com/embed/${videoYT.slice(ytId)}` }
           frameBorder="0"
           allowFullScreen
         />
