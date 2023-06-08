@@ -1,52 +1,51 @@
 import React, { useContext, useEffect } from 'react';
 import MyContext from '../context/MyContext';
 import Loading from '../components/Loading';
-import DrinksCard from './cards/DrinksCard';
-import './Drinks.css';
+import MealsCard from './cards/MealsCard';
+import './Meals.css';
 
-function Drinks() {
-  const { fetchDrinks,
-    fetchDrinksCategories,
+function Meals() {
+  const { fetchMeals,
+    fetchMealsCategories,
     setLoading,
     isLoading,
     toggle,
     setToggle,
-    dataDrinksCategories,
-    setDataDrinks } = useContext(MyContext);
+    dataMealsCategories,
+    setDataMeals } = useContext(MyContext);
 
   const numberOfItems = 12;
 
   useEffect(() => {
-    fetchDrinks();
-    fetchDrinksCategories();
+    fetchMeals();
+    fetchMealsCategories();
   }, []);
 
   const handleByCategory = async ({ target }) => {
-    setLoading(true);
     if (!toggle) {
-      setDataDrinks([]);
-      const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.value}`);
+      setLoading(true);
+      setDataMeals([]);
+      const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.value}`);
       const data = await response.json();
-      const filterQuantity = await data.drinks.slice(0, numberOfItems);
-      setDataDrinks(filterQuantity);
+      const filterQuantity = await data.meals.slice(0, numberOfItems);
+      setDataMeals(filterQuantity);
       setLoading(false);
       setToggle(true);
     } else {
       setToggle(false);
-      fetchDrinks();
+      fetchMeals();
     }
   };
 
   const handleAll = () => {
-    fetchDrinks();
-    setToggle(false);
+    fetchMeals();
   };
 
   return (
-    <div className="main__drinks">
+    <div className="main__meals">
       { isLoading ? <Loading /> : (
         <>
-          { dataDrinksCategories.map((btn) => (
+          { dataMealsCategories.map((btn) => (
             <button
               key={ btn.strCategory }
               data-testid={ `${btn.strCategory}-category-filter` }
@@ -57,11 +56,11 @@ function Drinks() {
             </button>
           ))}
           <button data-testid="All-category-filter" onClick={ handleAll }>All</button>
-          <DrinksCard />
+          <MealsCard />
         </>
       )}
     </div>
   );
 }
 
-export default Drinks;
+export default Meals;
