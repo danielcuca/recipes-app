@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import RecipeDetails from './pages/RecipeDetails';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/drinks" component={ Drinks } />
         <Route path="/meals/:id" component={ RecipeDetails } />
         <Route path="/meals" component={ Meals } />
+        <Route path="/profile" component={ Profile } />
       </Switch>
       <Footer />
     </div>
